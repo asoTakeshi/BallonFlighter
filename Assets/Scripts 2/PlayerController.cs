@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-   
+
     private string horizontal = "Horizontal";    // キー入力用の文字列指定
+
+    private string jump = "Jump";                // キー入力用の文字列指定
+
 
     private Rigidbody2D rb;                      // コンポーネントの取得用
 
     private float scale;                         // 向きの設定に利用する
 
 
-    ////* ここから追加 *////
-
     private Animator anim;
 
-    ////* ここまで *////
-
     public float moveSpeed;                      // 移動速度
+
+    public float jumpPower;                     // ジャンプ・浮遊力
 
 
     void Start()
@@ -29,14 +30,36 @@ public class PlayerController : MonoBehaviour
         scale = transform.localScale.x;
 
 
-        ////* ここから追加 *////
+
 
         anim = GetComponent<Animator>();
 
-        ////* ここまで *////
+
 
     }
 
+    ////* ここから追加 *////
+
+    void Update()
+    {
+        // ジャンプ
+        if (Input.GetButtonDown(jump))      // InputManager の Jump の項目に登録されているキー入力を判定する
+        {
+            Jump();
+        }
+    }
+    /// <summary>
+    /// ジャンプと空中浮遊
+    /// </summary>
+    
+    private void Jump()
+    {
+        // キャラの位置を上方向へ移動させる(ジャンプ・浮遊)
+        rb.AddForce(transform.up * jumpPower);
+
+        // Jump(Up + Mid) アニメーションを再生する
+        anim.SetTrigger("Jump");
+    }
     void FixedUpdate()
     {
         // 移動
