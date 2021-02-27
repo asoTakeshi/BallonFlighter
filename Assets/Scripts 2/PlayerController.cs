@@ -6,20 +6,27 @@ public class PlayerController : MonoBehaviour
 {
 
     private string horizontal = "Horizontal";    // キー入力用の文字列指定
-
     private string jump = "Jump";                // キー入力用の文字列指定
 
 
     private Rigidbody2D rb;                      // コンポーネントの取得用
-
     private float scale;                         // 向きの設定に利用する
 
 
     private Animator anim;
 
     public float moveSpeed;                      // 移動速度
-
     public float jumpPower;                     // ジャンプ・浮遊力
+
+    ////* ここから追加 *////
+
+    public bool isGrounded;
+
+    [SerializeField, Header("Linecast用 地面判定レイヤー")]
+    private LayerMask groundLayer;
+
+    ////* ここまで *////
+
 
 
     void Start()
@@ -28,30 +35,38 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         scale = transform.localScale.x;
-
-
-
-
         anim = GetComponent<Animator>();
-
-
-
     }
 
-    ////* ここから追加 *////
+
 
     void Update()
     {
+
+
+        // 地面接地  Physics2D.Linecastメソッドを実行して、Ground Layerとキャラのコライダーとが接地している距離かどうかを確認し、接地しているなら true、接地していないなら false を戻す
+        isGrounded = Physics2D.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, groundLayer);
+        // Sceneビューに Physics2D.LinecastメソッドのLineを表示する
+        Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
+
         // ジャンプ
         if (Input.GetButtonDown(jump))      // InputManager の Jump の項目に登録されているキー入力を判定する
         {
             Jump();
         }
+
+        // 接地していない(空中にいる)間で、落下中の場合
+        if (isGrounded == false && rb.velocity.y < 0.15f)
+        {
+            // 落下アニメを繰り返す
+            anim.SetTrigger("Fall");
+        }
+
     }
     /// <summary>
     /// ジャンプと空中浮遊
     /// </summary>
-    
+
     private void Jump()
     {
         // キャラの位置を上方向へ移動させる(ジャンプ・浮遊)
