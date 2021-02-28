@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isGrounded;
 
+    public GameObject[] Ballons;                // GameObject型の配列。インスペクターからヒエラルキーにある Ballon ゲームオブジェクトを２つアサインする
+
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
 
@@ -48,17 +50,35 @@ public class PlayerController : MonoBehaviour
         // Sceneビューに Physics2D.LinecastメソッドのLineを表示する
         Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
 
-        // ジャンプ
-        if (Input.GetButtonDown(jump))
-        {
-            Jump();
-        }
 
-        // 接地していない(空中にいる)間で、落下中の場合
-        if (isGrounded == false && rb.velocity.y < 0.15f)
+        // Ballons配列変数の最大要素数が 0 以上なら = インスペクターでBallons変数に情報が登録されているなら
+        if (Ballons.Length > 0)
         {
-            // 落下アニメを繰り返す
-            anim.SetTrigger("Fall");
+
+
+
+            // ジャンプ
+            if (Input.GetButtonDown(jump))
+            {
+                Jump();
+            }
+
+            // 接地していない(空中にいる)間で、落下中の場合
+            if (isGrounded == false && rb.velocity.y < 0.15f)
+            {
+                // 落下アニメを繰り返す
+                anim.SetTrigger("Fall");
+            }
+            // Velocity.y の値が 5.0f を超える場合(ジャンプを連続で押した場合)
+            if (rb.velocity.y > 5.0f)
+            {
+                // Velocity.y の値に制限をかける(落下せずに上空で待機できてしまう現象を防ぐため)
+                rb.velocity = new Vector2(rb.velocity.x, 5.0f);
+            }
+        }
+        else
+        {
+            Debug.Log("バルーンがない。ジャンプ不可");
         }
     }
 
