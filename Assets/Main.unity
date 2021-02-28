@@ -751,6 +751,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1529362833}
+  - component: {fileID: 1529362834}
+  - component: {fileID: 1529362835}
   m_Layer: 8
   m_Name: Ground_Start
   m_TagString: Untagged
@@ -776,6 +778,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1529362834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529362832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f0c9cdf02aeea409f0270be43472e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+--- !u!114 &1529362835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529362832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae202fe44f8b35c4f847221682e8c4c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1542568165
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,6 +959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363c185909b774446ac1f1e1c820f4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFirstGenerateBallon: 0
   moveSpeed: 3
   jumpPower: 300
   isGrounded: 0
@@ -946,6 +974,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  StartChecker: {fileID: 1529362835}
 --- !u!1 &1646782864 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
