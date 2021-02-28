@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public GameObject ballonPrefab;            // バルーンのプレファブ
     public float generateTime;                 // バルーンを生成する時間
     public bool isGenerating;                   // バルーンを生成中かどうかを判定する。false なら生成していない状態。true は生成中の状態
-
+    public float knockbackPower;              // 敵と接触した際に吹き飛ばされる力
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
@@ -241,12 +241,18 @@ public class PlayerController : MonoBehaviour
         {
             // 1つ目のバルーン生成を生成して、1番目の配列へ代入
             ballons[0] = Instantiate(ballonPrefab, ballonTrans[0]);
+
+            ballons[0].GetComponent<Ballon>().SetUpBallon(this);
         }
+
         else
         {
             // 2つ目のバルーン生成を生成して、2番目の配列へ代入
             ballons[1] = Instantiate(ballonPrefab, ballonTrans[1]);
+
+            ballons[1].GetComponent<Ballon>().SetUpBallon(this);
         }
+
 
         // 生成時間分待機
         yield return new WaitForSeconds(generateTime);
@@ -254,8 +260,34 @@ public class PlayerController : MonoBehaviour
         // 生成中状態終了。再度生成できるようにする
         isGenerating = false;
     }
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        // 接触したコライダーを持つゲームオブジェクトのTagがEnemyなら 
+        if (col.gameObject.tag == "Enemy")
+        {
+            // キャラと敵の位置から距離と方向を計算
+            Vector3 direction = (transform.position - col.transform.position).normalized;
 
-   
+            // 敵の反対側にキャラを吹き飛ばす
+            transform.position += direction * knockbackPower;
+        }
+    }
+    /// <summary>
+    /// バルーン破壊
+    /// </summary>
+    
+    public void DestroyBallon()
+    {
+        // TODO 後程、バルーンが破壊される際に「割れた」ように見えるアニメ演出を追加する
+        if (ballons[1] != null)
+        {
+            Destroy(ballons[1]);
+        }
+        else if(ballons[0] != null)
+        {
+            Destroy(ballons[0]);
+        }
+    }
 
 
 }
