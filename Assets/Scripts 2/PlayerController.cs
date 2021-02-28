@@ -25,7 +25,14 @@ public class PlayerController : MonoBehaviour
 
     public bool isGrounded;
 
-    public GameObject[] Ballons;                // GameObject型の配列。インスペクターからヒエラルキーにある Ballon ゲームオブジェクトを２つアサインする
+    public GameObject[] ballons;                // GameObject型の配列。インスペクターからヒエラルキーにある Ballon ゲームオブジェクトを２つアサインする
+
+    public int maxBallonCount;                 // バルーンを生成する最大数
+    public Transform[] ballonTrans;             // バルーンの生成位置の配列
+    public GameObject ballonPrefab;            // バルーンのプレファブ
+    public float generateTime;                 // バルーンを生成する時間
+    public bool isGenerating;                   // バルーンを生成中かどうかを判定する。false なら生成していない状態。true は生成中の状態
+
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
@@ -38,6 +45,9 @@ public class PlayerController : MonoBehaviour
 
         scale = transform.localScale.x;
         anim = GetComponent<Animator>();
+
+        // 配列の初期化(バルーンの最大生成数だけ配列の要素数を用意する)
+        ballons = new GameObject[maxBallonCount];
     }
 
 
@@ -51,11 +61,13 @@ public class PlayerController : MonoBehaviour
         Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
 
 
-        // Ballons配列変数の最大要素数が 0 以上なら = インスペクターでBallons変数に情報が登録されているなら
-        if (Ballons.Length > 0)
-        {
+        ////* ここから修正 *////
 
+        // ballons変数の最初の要素の値が空ではないなら = バルーンが１つ生成されるとこの要素に値が代入される = バルーンが１つあるなら
+        if (ballons[0] != null)
+        {         // <=　☆　条件を変更する　☆
 
+            ////* ここまで *////
 
             // ジャンプ
             if (Input.GetButtonDown(jump))
@@ -66,20 +78,44 @@ public class PlayerController : MonoBehaviour
             // 接地していない(空中にいる)間で、落下中の場合
             if (isGrounded == false && rb.velocity.y < 0.15f)
             {
+
                 // 落下アニメを繰り返す
                 anim.SetTrigger("Fall");
-            }
-            // Velocity.y の値が 5.0f を超える場合(ジャンプを連続で押した場合)
-            if (rb.velocity.y > 5.0f)
-            {
-                // Velocity.y の値に制限をかける(落下せずに上空で待機できてしまう現象を防ぐため)
-                rb.velocity = new Vector2(rb.velocity.x, 5.0f);
             }
         }
         else
         {
             Debug.Log("バルーンがない。ジャンプ不可");
         }
+
+
+
+        // Velocity.y の値が 5.0f を超える場合(ジャンプを連続で押した場合)
+        if (rb.velocity.y > 5.0f)
+        {
+
+            // Velocity.y の値に制限をかける(落下せずに上空で待機できてしまう現象を防ぐため)
+            rb.velocity = new Vector2(rb.velocity.x, 5.0f);
+        }
+
+
+        ////* ここから追加 *////
+
+        // 地面に接地していて、バルーンが生成中ではない場合
+        if (isGrounded == true && isGenerating == false)
+        {
+
+            // Qボタンを押したら
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+
+                // バルーンを１つ作成する
+                StartCoroutine(GenerateBallon());
+            }
+        }
+
+        ////* ここまで *////
+
     }
 
     /// <summary>
@@ -157,22 +193,53 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("Idle", true);
         }
 
-
-        ////* ここから追加 *////
-
         // 現在の位置情報が移動範囲の制限範囲を超えていないか確認する。超えていたら、制限範囲内に収める
         float posX = Mathf.Clamp(transform.position.x, -limitPosX, limitPosX);
         float posY = Mathf.Clamp(transform.position.y, -limitPosY, limitPosY);
 
         // 現在の位置を更新(制限範囲を超えた場合、ここで移動の範囲を制限する)
         transform.position = new Vector2(posX, posY);
-
-
-        ////* ここまで *////
-
     }
 
 
+    ////* ここからメソッドを１つ追加 *////
+
+    /// <summary>
+    /// バルーン生成
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator GenerateBallon()
+    {
+
+        // すべての配列の要素にバルーンが存在している場合には、バルーンを生成しない
+        if (ballons[1] != null)
+        {
+            yield break;
+        }
+
+        // 生成中状態にする
+        isGenerating = true;
+
+        // １つめの配列の要素が空なら
+        if (ballons[0] == null)
+        {
+            // 1つ目のバルーン生成を生成して、1番目の配列へ代入
+            ballons[0] = Instantiate(ballonPrefab, ballonTrans[0]);
+        }
+        else
+        {
+            // 2つ目のバルーン生成を生成して、2番目の配列へ代入
+            ballons[1] = Instantiate(ballonPrefab, ballonTrans[1]);
+        }
+
+        // 生成時間分待機
+        yield return new WaitForSeconds(generateTime);
+
+        // 生成中状態終了。再度生成できるようにする
+        isGenerating = false;
+    }
+
+    ////* ここまで *////
 
 
 }
