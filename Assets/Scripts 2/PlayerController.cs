@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public float generateTime;                 // バルーンを生成する時間
     public bool isGenerating;                   // バルーンを生成中かどうかを判定する。false なら生成していない状態。true は生成中の状態
     public float knockbackPower;              // 敵と接触した際に吹き飛ばされる力
+    public int coinPoint;                       // コインを獲得すると増えるポイントの総数
+
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
@@ -286,6 +288,21 @@ public class PlayerController : MonoBehaviour
         else if(ballons[0] != null)
         {
             Destroy(ballons[0]);
+        }
+    }
+    ////* 新しいメソッドを１つ追加　ここから *////
+
+    // IsTriggerがオンのコライダーを持つゲームオブジェクトを通過した場合に呼び出されるメソッド
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        // 通過したコライダーを持つゲームオブジェクトの Tag が Coin の場合
+        if (col.gameObject.tag == "Coin")
+        {
+            // 通過したコインのゲームオブジェクトの持つ Coin スクリプトを取得し、point 変数の値をキャラの持つ coinPoint 変数に加算
+            coinPoint += col.gameObject.GetComponent<Coin>().point;
+
+            // 通過したコインのゲームオブジェクトを破壊する
+            Destroy(col.gameObject);
         }
     }
 
