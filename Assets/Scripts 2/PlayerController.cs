@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public bool isGenerating;                   // バルーンを生成中かどうかを判定する。false なら生成していない状態。true は生成中の状態
     public float knockbackPower;              // 敵と接触した際に吹き飛ばされる力
     public int coinPoint;                       // コインを獲得すると増えるポイントの総数
+    public UIManager uiManager;
 
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
@@ -301,6 +302,7 @@ public class PlayerController : MonoBehaviour
             // 通過したコインのゲームオブジェクトの持つ Coin スクリプトを取得し、point 変数の値をキャラの持つ coinPoint 変数に加算
             coinPoint += col.gameObject.GetComponent<Coin>().point;
 
+            uiManager.UpdateDisplayScore(coinPoint);
             // 通過したコインのゲームオブジェクトを破壊する
             Destroy(col.gameObject);
         }
