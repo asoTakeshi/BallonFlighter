@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("バルーンがない。ジャンプ不可");
+           
         }
 
 
@@ -238,7 +238,7 @@ public class PlayerController : MonoBehaviour
             // 初回バルーン生成を行ったと判断し、true に変更する = 次回以降はバルーンを生成しても、if 文の条件を満たさなくなり、この処理には入らない
             isFirstGenerateBallon = true;
 
-            Debug.Log("初回のバルーン生成");
+            //Debug.Log("初回のバルーン生成");
 
             // startChecker 変数に代入されている StartChecker スクリプトにアクセスして、SetInitialSpeed メソッドを実行する
             StartChecker.SetInitialSpeed();
