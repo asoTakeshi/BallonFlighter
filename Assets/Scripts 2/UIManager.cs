@@ -14,6 +14,13 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private CanvasGroup canvasGroupInfo;
 
+    [SerializeField]
+    private ResultPopUp resultPopUpPrefab;
+
+    [SerializeField]
+    private Transform canvasTran;
+
+
     /// <summary>
     /// スコア表示を更新
     /// </summary>
@@ -38,7 +45,18 @@ public class UIManager : MonoBehaviour
         // 文字列をアニメーションさせて表示
         txtInfo.DOText("Game Over...", 1.0f);
     }
+    /// <summary>
+    /// ResultPopUpの生成
+    /// </summary>
+    
+    public void GenerateResultPopUp(int score)
+    {
+        // ResultPopUp を生成
+        ResultPopUp resultPopUp = Instantiate(resultPopUpPrefab, canvasTran, false);
 
+        // ResultPopUp の設定を行う
+        resultPopUp.SetUpResultPopUp(score);
+    }
 
 
 }

@@ -7,10 +7,17 @@ public class VerticalFloatingObject : MonoBehaviour
 {
     public float moveTime;
     public float moveRange;
+
+    Tweener tweener;
+        
     
     void Start()
     {
-        transform.DOMoveY(transform.position.y - moveRange, moveTime).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        tweener = transform.DOMoveY(transform.position.y - moveRange, moveTime).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+    }
+    private void OnDestroy()
+    {
+        tweener.Kill();
     }
 
    

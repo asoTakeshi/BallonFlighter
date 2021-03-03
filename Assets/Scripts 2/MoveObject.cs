@@ -13,7 +13,7 @@ public class MoveObject : MonoBehaviour
         transform.position += new Vector3(-moveSpeed, 0, 0);
 
         // スクリプトがアタッチされているゲームオブジェクトがゲーム画面に移らない位置まで移動したら
-        if (transform.position.x <= -14.0f)
+        if (transform.position.x <-14.0f)
         {
             // スクリプトがアタッチされているゲームオブジェクトを破壊
             Destroy(gameObject);
