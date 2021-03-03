@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
@@ -19,6 +20,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Transform canvasTran;
+    [SerializeField]
+    private Button btnInfo;
 
 
     /// <summary>
@@ -44,6 +47,7 @@ public class UIManager : MonoBehaviour
 
         // 文字列をアニメーションさせて表示
         txtInfo.DOText("Game Over...", 1.0f);
+        btnInfo.onClick.AddListener(RestartGame);
     }
     /// <summary>
     /// ResultPopUpの生成
@@ -56,6 +60,26 @@ public class UIManager : MonoBehaviour
 
         // ResultPopUp の設定を行う
         resultPopUp.SetUpResultPopUp(score);
+    }
+    /// <summary>
+    /// タイトルへ戻る
+    /// </summary>
+    public void RestartGame()
+    {
+        // ボタンからメソッドを削除(重複クリック防止)
+        btnInfo.onClick.RemoveAllListeners();
+
+        // 現在のシーンの名前を取得
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        canvasGroupInfo.DOFade(0f, 1.0f)
+            .OnComplete(() =>
+            {
+                Debug.Log("Restart");
+                SceneManager.LoadScene(sceneName);
+
+            });
+
     }
 
 
