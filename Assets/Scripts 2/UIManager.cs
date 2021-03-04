@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private CanvasGroup canvasGroupTitle;
 
+    Tweener tweener;
+
 
 
     /// <summary>
@@ -108,15 +110,27 @@ public class UIManager : MonoBehaviour
     //タイトル呼ぶ関数 
     public void SwitchDisplayTitle(bool isSwitch, float alpha)
     {
-        //もし、タイトルでは無いときは、canvasGroupTitleの透明度を0にする。
+        // タイトルの場合には、canvasGroupTitleの透明度を0にする。
         if (isSwitch) canvasGroupTitle.alpha = 0;
 
-        //canvasGroupTitleを1秒かけて、等倍で、 lblStart.gameObjectを表示する
+        //canvasGroupTitle の Alpha の値を、1秒かけて、alpha 変数の値(今回は 1.0f)に、等倍速で変更する 
         canvasGroupTitle.DOFade(alpha, 1.0f).SetEase(Ease.Linear).OnComplete(() => {
+
+            // isSwitch = true であるため、処理としては以下のようになっている。
+            // そのため、SetActive メソッドが true で実行されているので、lblStart.gameObjectを表示する処理になる
             lblStart.gameObject.SetActive(isSwitch);
         });
-        // Tap Startの文字をゆっくり点滅させる
-        lblStart.gameObject.GetComponent<CanvasGroup>().DOFade(0, 1.0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        if (tweener == null)
+        {
+
+
+            // Tap Startの文字をゆっくり点滅させる
+            tweener = lblStart.gameObject.GetComponent<CanvasGroup>().DOFade(0, 1.0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        }
+        else
+        {
+            tweener.Kill();
+        }
     }
     /// <summary>
     /// タイトル表示中に画面をクリックした際の処理
@@ -146,7 +160,7 @@ public class UIManager : MonoBehaviour
         //canvasGroupInfoの透明度を0にする
         canvasGroupInfo.alpha = 0;
 
-        //canvasGroupInfoを0.5秒から1秒かけて変化させる
+        //canvasGroupInfo の Alpha の値を 0.5秒かけて 1.0f に変化させる
         canvasGroupInfo.DOFade(1.0f, 0.5f);
 
         //txtInfo.textのGame Start!表示
@@ -155,7 +169,7 @@ public class UIManager : MonoBehaviour
         //1秒待つ
         yield return new WaitForSeconds(1.0f);
 
-        // canvasGroupInfoを0.5秒かけて変化させる
+        // canvasGroupInfo の Alpha の値を 0.5秒かけて 0.0f に変化させる
         canvasGroupInfo.DOFade(0f, 0.5f);
 
         //canvasGroupTitleのgameObjecを非表示にする
