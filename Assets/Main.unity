@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 269117011}
   - component: {fileID: 269117010}
   - component: {fileID: 269117012}
+  - component: {fileID: 269117013}
   m_Layer: 0
   m_Name: 'GameManager '
   m_TagString: Untagged
@@ -266,6 +267,23 @@ MonoBehaviour:
   - {fileID: 99283995965979522, guid: f7b24d960820d10469e3915093f5bd5f, type: 3}
   generateTran: {fileID: 2006172579}
   waitTimeRange: {x: 3, y: 7}
+--- !u!114 &269117013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269117009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a7cdd852994cf04f9a64b893d603258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalHousePrefab: {fileID: 6320330954766709513, guid: deae707217fb9df4ba07a38a5af580db, type: 3}
+  playerController: {fileID: 1542568171}
+  floorGenerators:
+  - {fileID: 269117010}
+  clearCount: 2
 --- !u!1 &379151072
 GameObject:
   m_ObjectHideFlags: 0
