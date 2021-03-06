@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aerialFloorPrefab: {fileID: 8379670699123099650, guid: b9e04cd9b97aeaf49be876099bb8da22, type: 3}
   generateTran: {fileID: 2006172579}
-  waitTime: 6
+  waitTime: 10
 --- !u!4 &269117011
 Transform:
   m_ObjectHideFlags: 0
@@ -266,7 +266,7 @@ MonoBehaviour:
   - {fileID: 5592083663730894727, guid: 667bfee05ab84334d9e5ec7b121d65fd, type: 3}
   - {fileID: 99283995965979522, guid: f7b24d960820d10469e3915093f5bd5f, type: 3}
   generateTran: {fileID: 2006172579}
-  waitTimeRange: {x: 3, y: 7}
+  waitTimeRange: {x: 5, y: 7}
 --- !u!114 &269117013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +283,9 @@ MonoBehaviour:
   playerController: {fileID: 1542568171}
   floorGenerators:
   - {fileID: 269117010}
-  clearCount: 2
+  randomObjectGenerators:
+  - {fileID: 269117012}
+  clearCount: 4
 --- !u!1 &379151072
 GameObject:
   m_ObjectHideFlags: 0

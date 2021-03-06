@@ -13,6 +13,9 @@ public class GameDirector : MonoBehaviour
     [SerializeField]
     private FloorGenerator[] floorGenerators;    // floorGenerator スクリプトのアタッチされているゲームオブジェクトをアサイン
 
+    [SerializeField]
+    private RandomObjectGenerator[] randomObjectGenerators;           // RandomObjectGenerator スクリプトのアタッチされているゲームオブジェクトをアサイン
+
     private bool isSetUp;                        // ゲームの準備判定用。true になるとゲーム開始
 
     private bool isGameUp;                    // ゲーム終了判定用。true になるとゲーム終了
@@ -55,8 +58,8 @@ public class GameDirector : MonoBehaviour
         // FloorGeneratorの準備
         SetUpFloorGenerators();
 
-        // TODO 各ジェネレータを停止
-        Debug.Log("生成停止");
+        // 各ジェネレータの生成を停止
+        StopGenerators();
 
     }
     /// <summary>
@@ -81,8 +84,8 @@ public class GameDirector : MonoBehaviour
             // 準備完了
             isSetUp = true;
 
-            // TODO 各ジェネレータを動かし始める
-            Debug.Log("生成スタート");
+            // 各ジェネレータの生成をスタート
+            ActivateGenerators();
         }
     }
     /// <summary>
@@ -105,7 +108,40 @@ public class GameDirector : MonoBehaviour
         // ゲーム終了
         isGameUp = true;
 
-        // TODO 各ジェネレータを停止
-        Debug.Log("生成停止");
+         // 各ジェネレータの生成を停止
+        StopGenerators();
+
+    }
+    /// <summary>
+    /// 各ジェネレータを停止する
+    /// </summary>
+    private void StopGenerators()
+    {
+        for (int i = 0; i < randomObjectGenerators.Length; i++)
+        {
+            randomObjectGenerators[i].SwitchActivation(false);
+        }
+
+        for (int i = 0; i < floorGenerators.Length; i++)
+        {
+            floorGenerators[i].SwitchActivation(false);
+        }
+    }
+
+
+    /// <summary>
+    /// 各ジェネレータを動かし始める
+    /// </summary>
+    private void ActivateGenerators()
+    {
+        for (int i = 0; i < randomObjectGenerators.Length; i++)
+        {
+            randomObjectGenerators[i].SwitchActivation(true);
+        }
+
+        for (int i = 0; i < floorGenerators.Length; i++)
+        {
+            floorGenerators[i].SwitchActivation(true);
+        }
     }
 }

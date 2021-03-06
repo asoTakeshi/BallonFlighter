@@ -15,11 +15,20 @@ public class FloorGenerator : MonoBehaviour
 
     private float Timer;                   // 待機時間の計測用
 
-    private GameDirector gameDirector; 
+    private GameDirector gameDirector;
+
+    private bool isActivate;                  // 生成の状態を設定し、生成を行うかどうかの判定に利用する。trueなら 生成し、false なら生成しない
+
+
 
 
     void Update()
     {
+        // 停止中は生成を行わない
+        if (isActivate == false)
+        {
+            return;
+        }
         // 時間を計測する
         Timer += Time.deltaTime;
         // 計測している時間が waitTime の値と同じか、超えたら
@@ -57,8 +66,15 @@ public class FloorGenerator : MonoBehaviour
     public void SetUpGenerator(GameDirector gameDirector)
     {
         this.gameDirector = gameDirector;
-
-        // TODO 他にも初期設定したい情報がある場合にはここに処理を追加する
-
     }
+    /// <summary>
+    /// 生成状態のオン/オフを切り替え
+    /// </summary>
+    /// <param name="isSwitch"></param>
+    public void SwitchActivation(bool isSwitch)
+    {
+        isActivate = isSwitch;
+    }
+
+
 }
