@@ -16,6 +16,9 @@ public class GameDirector : MonoBehaviour
     [SerializeField]
     private RandomObjectGenerator[] randomObjectGenerators;           // RandomObjectGenerator スクリプトのアタッチされているゲームオブジェクトをアサイン
 
+    [SerializeField]
+    private AudioManager audioManager;              // ヒエラルキーにある AudioManager スクリプトのアタッチされているゲームオブジェクトをアサイン
+
     private bool isSetUp;                        // ゲームの準備判定用。true になるとゲーム開始
 
     private bool isGameUp;                    // ゲーム終了判定用。true になるとゲーム終了
@@ -51,6 +54,8 @@ public class GameDirector : MonoBehaviour
 
     void Start()
     {
+        // タイトル曲再生
+        StartCoroutine(audioManager.PlayBGM(0));
         // ゲーム開始状態にセット
         isGameUp = false;
         isSetUp = false;
@@ -60,6 +65,8 @@ public class GameDirector : MonoBehaviour
 
         // 各ジェネレータの生成を停止
         StopGenerators();
+
+      
 
     }
     /// <summary>
@@ -86,6 +93,9 @@ public class GameDirector : MonoBehaviour
 
             // 各ジェネレータの生成をスタート
             ActivateGenerators();
+
+            // タイトル曲を終了し、メイン曲を再生
+            StartCoroutine(audioManager.PlayBGM(1));
         }
     }
     /// <summary>
