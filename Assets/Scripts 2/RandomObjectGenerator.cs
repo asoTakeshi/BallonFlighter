@@ -83,5 +83,5 @@ public class RandomObjectGenerator : MonoBehaviour
     public void SwitchActivation(bool isSwitch)
     {
         isActivate = isSwitch;
-    }
+    }          
 }

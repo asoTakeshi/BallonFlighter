@@ -45,6 +45,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private StartChecker StartChecker;
 
+    [SerializeField]
+    private AudioClip knockbackSE;                    // 敵と接触した際に鳴らすSE用のオーディオファイルをアサインする
+
+    [SerializeField]
+    private GameObject knockbackEffectPrefab;         // 敵と接触した際に生成するエフェクト用のプレファブのゲームオブジェクトをアサインする
+
+    [SerializeField]
+    private AudioClip coinSE;                    // コインに接触した際に鳴らすSE用のオーディオファイルをアサインする
+
+    [SerializeField]
+    private GameObject coinEffectPrefab; 　　　　　　//コインと接触した際に生成するエフェクト用のプレファブのゲームオブジェクトをアサインする
 
     void Start()
     {
@@ -278,8 +289,36 @@ public class PlayerController : MonoBehaviour
 
             // 敵の反対側にキャラを吹き飛ばす
             transform.position += direction * knockbackPower;
+
+            // 敵との接触用のSE(AudioClip)を再生する
+            AudioSource.PlayClipAtPoint(knockbackSE, transform.position);
+
+            // 接触した際のエフェクトを、敵の位置に、クローンとして生成する。生成されたゲームオブジェクトを変数へ代入
+            GameObject knockbackEffect = Instantiate(knockbackEffectPrefab, col.transform.position, Quaternion.identity);
+
+            // エフェクトを 0.5 秒後に破棄
+            Destroy(knockbackEffect, 0.5f);
         }
     }
+    //private void GameObject()
+    //{
+
+        //if (gameObject.tag == "Coin")
+        //{
+            // コインとの接触用のSE(AudioClip)を再生する
+            //AudioSource.PlayClipAtPoint(coinSE, transform.position);
+
+            // 接触した際のエフェクトを、コインの位置に、クローンとして生成する。生成されたゲームオブジェクトを変数へ代入
+            //GameObject coinEffect = Instantiate(coinEffectPrefab, transform.position, Quaternion.identity);
+
+            // エフェクトを 0.1 秒後に破棄
+            //Destroy(coinEffect, 0.3f);
+        //}
+
+    //}
+             
+        
+    
     /// <summary>
     /// バルーン破壊
     /// </summary>
