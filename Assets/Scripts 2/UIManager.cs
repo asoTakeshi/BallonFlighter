@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     public void UpdateDisplayScore(int score)
     {
         txtScore.text = score.ToString();
+        
     }
 
     ////* 新しくメソッドを１つ追加。ここから *////

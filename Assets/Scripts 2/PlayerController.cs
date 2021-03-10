@@ -300,22 +300,7 @@ public class PlayerController : MonoBehaviour
             Destroy(knockbackEffect, 0.5f);
         }
     }
-    //private void GameObject()
-    //{
-
-        //if (gameObject.tag == "Coin")
-        //{
-            // コインとの接触用のSE(AudioClip)を再生する
-            //AudioSource.PlayClipAtPoint(coinSE, transform.position);
-
-            // 接触した際のエフェクトを、コインの位置に、クローンとして生成する。生成されたゲームオブジェクトを変数へ代入
-            //GameObject coinEffect = Instantiate(coinEffectPrefab, transform.position, Quaternion.identity);
-
-            // エフェクトを 0.1 秒後に破棄
-            //Destroy(coinEffect, 0.3f);
-        //}
-
-    //}
+    
              
         
     
@@ -349,6 +334,16 @@ public class PlayerController : MonoBehaviour
             uiManager.UpdateDisplayScore(coinPoint);
             // 通過したコインのゲームオブジェクトを破壊する
             Destroy(col.gameObject);
+
+            //コインとの接触用のSE(AudioClip)を再生する
+            AudioSource.PlayClipAtPoint(coinSE, transform.position);
+
+            // 接触した際のエフェクトを、コインの位置に、クローンとして生成する。生成されたゲームオブジェクトを変数へ代入
+            GameObject coinEffect = Instantiate(coinEffectPrefab, transform.position, Quaternion.identity);
+
+            // エフェクトを 0.3 秒後に破棄
+            Destroy(coinEffect, 0.3f);
+            
         }
     }
     /// <summary>

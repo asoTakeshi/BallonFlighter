@@ -19,6 +19,8 @@ public class ResultPopUp : MonoBehaviour
     [SerializeField]
     private Button btnTitle;
 
+    Tweener tweener;
+
     /// <summary>
     /// ResultPopUpの設定
     /// </summary>
@@ -35,10 +37,12 @@ public class ResultPopUp : MonoBehaviour
         txtScore.text = score.ToString();
 
         // リスタートのメッセージをゆっくりと点滅アニメさせる(学習済の命令です。復習しておきましょう)
-        canvasGroupRestart.DOFade(0, 1.0f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
+         tweener = canvasGroupRestart.DOFade(0, 1.0f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
 
         // ボタンにメソッドを登録
         btnTitle.onClick.AddListener(OnClickRestart);
+
+
     }
 
     /// <summary>
@@ -49,6 +53,9 @@ public class ResultPopUp : MonoBehaviour
 
         // リザルト表示を徐々に非表示にする
         canvasGroup.DOFade(0, 1.0f).SetEase(Ease.Linear);
+
+        tweener.Kill();
+
 
         // 現在のシーンを再度読み込む
         StartCoroutine(Restart());
