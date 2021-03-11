@@ -29,7 +29,7 @@ public class Ballon : MonoBehaviour
         // 左右にふわふわさせる
         tweener = transform.DOLocalMoveX(0.02f, 0.2f).SetEase(Ease.Flash).SetLoops(-1, LoopType.Yoyo);
 
-        tweener.Kill();
+        //tweener.Kill();
 
     }
     private void OnCollisionEnter2D(Collision2D col)
@@ -43,5 +43,9 @@ public class Ballon : MonoBehaviour
             playerController.DestroyBallon();
 
         }
+    }
+    private void OnDestroy()
+    {
+        tweener.Kill();
     }
 }
