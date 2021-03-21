@@ -7,6 +7,8 @@ TagManager:
   - DamageObject
   - Enemy
   - Coin
+  - FxTemporaire
+  - Ballon
   layers:
   - Default
   - TransparentFX

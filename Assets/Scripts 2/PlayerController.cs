@@ -37,6 +37,11 @@ public class PlayerController : MonoBehaviour
     public float knockbackPower;              // 敵と接触した際に吹き飛ばされる力
     public int coinPoint;                       // コインを獲得すると増えるポイントの総数
     public UIManager uiManager;
+    public GameObject bulletPrefab;
+    public Transform shotPoint;
+    float coolTime = 0.3f;                       //待機時間
+    float leftCoolTime;　　　　　　　　　　 // 待機している時間
+    bool isRight;
 
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
@@ -57,6 +62,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject coinEffectPrefab; 　　　　　　//コインと接触した際に生成するエフェクト用のプレファブのゲームオブジェクトをアサインする
 
+    
+  
+
     void Start()
     {
         // 必要なコンポーネントを取得して用意した変数に代入
@@ -67,12 +75,17 @@ public class PlayerController : MonoBehaviour
 
         // 配列の初期化(バルーンの最大生成数だけ配列の要素数を用意する)
         ballons = new GameObject[maxBallonCount];
+
+        leftCoolTime = 0;
+
+        //isRight = true;
     }
 
 
 
     void Update()
     {
+        Shot();
         // 地面接地  Physics2D.Linecastメソッドを実行して、Ground Layerとキャラのコライダーとが接地している距離かどうかを確認し、接地しているなら true、接地していないなら false を戻す
         isGrounded = Physics2D.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, groundLayer);
 
@@ -132,10 +145,31 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(GenerateBallon());
             }
         }
+        
+        
+        
 
-        ////* ここまで *////
 
     }
+    void Shot()
+    {
+        leftCoolTime -= Time.deltaTime;
+        if (leftCoolTime <= 0)
+        {
+           
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Instantiate(bulletPrefab, shotPoint.position, transform.rotation);
+
+                leftCoolTime = coolTime;
+            }
+        }
+       
+    }
+
+
+
+
 
     /// <summary>
     /// ジャンプと空中浮遊
@@ -159,6 +193,7 @@ public class PlayerController : MonoBehaviour
         }
         // 移動
         Move();
+        
     }
 
 
@@ -170,6 +205,7 @@ public class PlayerController : MonoBehaviour
 
         // 水平(横)方向への入力受付
         float x = Input.GetAxis(horizontal);
+        //Direction(x);
 
         // x の値が 0 ではない場合 = キー入力がある場合
         if (x != 0)
@@ -360,6 +396,23 @@ public class PlayerController : MonoBehaviour
         // 画面にゲームオーバー表示を行う
         uiManager.DisplayGameOverInfo();
     }
+    //void Direction(float inputX)
+
+    //{
+    //    if (isRight && inputX < 0)
+    //    {
+    //        transform.Rotate(0f, 180f, 0f);
+    //        isRight = false;
+    //    }
+
+    //    if (!isRight && inputX > 0)
+    //    {
+    //        transform.Rotate(0f, 180f, 0f);
+    //        isRight = true;
+    //    }
+
+
+    //}
 
 
 }
