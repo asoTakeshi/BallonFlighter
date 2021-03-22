@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objPrefab:
-  - {fileID: 5592083663730894727, guid: 667bfee05ab84334d9e5ec7b121d65fd, type: 3}
+  - {fileID: 4854790152048373508, guid: c2debe9c72d94be45b00d9e6e083421c, type: 3}
   - {fileID: 99283995965979522, guid: f7b24d960820d10469e3915093f5bd5f, type: 3}
   generateTran: {fileID: 2006172579}
   waitTimeRange: {x: 5, y: 7}
