@@ -12,10 +12,11 @@ public class BulletManeger : MonoBehaviour
 
     
 
-    void Start()
+    public void Shot(float direction)
     {
+        //Debug.Log(direction);
         rb = GetComponent<Rigidbody2D>();　　　  //Rigidbody2Dのコンポーネントを変数に代入
-        rb.velocity = transform.right * speed;   //球を赤軸方向に打つ
+        rb.velocity = transform.right * speed * direction;   //球を赤軸方向に打つ
         
     }   
    
@@ -30,9 +31,9 @@ public class BulletManeger : MonoBehaviour
             EnemyManager enemy = col.gameObject.GetComponent<EnemyManager>();
             enemy.OnDamage(at);
             
-            Instantiate(impactPrefab, transform.position, transform.rotation);
-            
+            GameObject effect = Instantiate(impactPrefab, transform.position, transform.rotation);
 
+            Destroy(effect, 1.0f);
             //破裂
             //Destroy(col.gameObject);
 

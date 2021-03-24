@@ -136,7 +136,6 @@ public class PlayerController : MonoBehaviour
         // 地面に接地していて、バルーンが生成中ではない場合
         if (isGrounded == true && isGenerating == false)
         {
-
             // Qボタンを押したら
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -145,12 +144,11 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(GenerateBallon());
             }
         }
-        
-        
-        
-
-
     }
+
+    /// <summary>
+    /// 弾を生成
+    /// </summary>
     void Shot()
     {
         leftCoolTime -= Time.deltaTime;
@@ -159,17 +157,13 @@ public class PlayerController : MonoBehaviour
            
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Instantiate(bulletPrefab, shotPoint.position, transform.rotation);
+                GameObject bullet =  Instantiate(bulletPrefab, shotPoint.position, transform.rotation);
 
+                bullet.GetComponent<BulletManeger>().Shot(transform.localScale.x / 3);
                 leftCoolTime = coolTime;
             }
         }
-       
     }
-
-
-
-
 
     /// <summary>
     /// ジャンプと空中浮遊
