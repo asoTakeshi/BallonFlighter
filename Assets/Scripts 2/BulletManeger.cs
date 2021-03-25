@@ -16,7 +16,7 @@ public class BulletManeger : MonoBehaviour
     {
         //Debug.Log(direction);
         rb = GetComponent<Rigidbody2D>();　　　  //Rigidbody2Dのコンポーネントを変数に代入
-        rb.velocity = transform.right * speed * direction;   //球を赤軸方向に打つ
+        rb.velocity = transform.right *  speed * direction;   //球を赤軸方向に打つ
         
     }   
    

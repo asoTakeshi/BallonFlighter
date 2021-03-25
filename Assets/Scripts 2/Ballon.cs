@@ -48,4 +48,6 @@ public class Ballon : MonoBehaviour
     {
         tweener.Kill();
     }
+    //int px = Random.Range(0, 7);
+    //go.transform.position = new Vector3(px, 0, 0);
 }
