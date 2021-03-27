@@ -9,10 +9,12 @@ public class Ballon : MonoBehaviour
 
     private Tween tweener;
 
+    public GameObject impactPrefab;
+
     /// <summary>
     /// バルーンの初期設定
     /// </summary>
-    
+
     public void SetUpBallon(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -34,6 +36,7 @@ public class Ballon : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D col)
     {
+       
         if (col.gameObject.tag == "Enemy")
         {
             // 左右にふわふわさせるループアニメを破棄する
@@ -41,13 +44,20 @@ public class Ballon : MonoBehaviour
 
             // PlayerControllerのDestroyBallonメソッドを呼び出し、バルーンの破壊処理を行う
             playerController.DestroyBallon();
+            GameObject effect = Instantiate(impactPrefab, transform.position, transform.rotation);
 
+            Destroy(effect, 1.0f);
+            //破裂
+            Destroy(col.gameObject);
+
+            //Destroy(gameObject);
         }
+       
     }
+
     private void OnDestroy()
     {
         tweener.Kill();
     }
-    //int px = Random.Range(0, 7);
-    //go.transform.position = new Vector3(px, 0, 0);
+    
 }

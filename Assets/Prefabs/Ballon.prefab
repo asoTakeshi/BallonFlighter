@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4233980175131133604}
   m_Layer: 0
   m_Name: Ballon
-  m_TagString: Ballon
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,3 +112,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babf740ac94e5c34bb30dd4f63f69e80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  impactPrefab: {fileID: 222598867717504146, guid: 0f69ac2a551897448b0c574932f8d0dc, type: 3}

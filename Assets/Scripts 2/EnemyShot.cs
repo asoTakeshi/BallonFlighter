@@ -13,48 +13,60 @@ public class EnemyShot : MonoBehaviour
     public int at;
     public GameObject bulletPrefab;
     public Transform shotPoints;
-    public void Shot(float direction)
-    {
-        //Debug.Log(direction);
-        rb = GetComponent<Rigidbody2D>();     //Rigidbody2Dのコンポーネントを変数に代入
-        rb.velocity = transform.right * speed * direction;
+    //public void Shot(float direction)
+    //{
+    //    //Debug.Log(direction);
+    //    rb = GetComponent<Rigidbody2D>();     //Rigidbody2Dのコンポーネントを変数に代入
+    //    rb.velocity = transform.right * speed * direction;
 
-    }
+    //}
     void Update()
+    {
+        Shot();
+        //this.delta += Time.deltaTime;
+        //if (this.delta > this.span)
+        //{
+        //    this.delta = 0;
+        //    GameObject bullet = Instantiate(bulletPrefab, shotPoints.position, transform.rotation);
+        //    bullet.GetComponent<BulletManeger>().Shot(transform.localScale.x -4);
+
+        //}
+    }
+    //private void OnCollisionEnter2D(Collision2D col)
+    //{
+        //Debug.Log(col.gameObject.tag);
+        //バルーンに当たったら
+        //if (col.gameObject.tag == "Ballon")
+        //{
+        //    //        //ダメージを与える
+        //    //        EnemyManager enemy = col.gameObject.GetComponent<EnemyManager>();
+        //    //        enemy.OnDamage(at);
+
+        //    GameObject effect = Instantiate(impactPrefab, transform.position, transform.rotation);
+
+        //    Destroy(effect, 1.0f);
+        //    //破裂
+        //    Destroy(col.gameObject);
+
+            //Destroy(gameObject);
+        //}
+        //else
+        //{
+            //Destroy(gameObject);
+        //}
+
+    //}
+        void Shot()
     {
         this.delta += Time.deltaTime;
         if (this.delta > this.span)
         {
             this.delta = 0;
             GameObject bullet = Instantiate(bulletPrefab, shotPoints.position, transform.rotation);
-            bullet.GetComponent<BulletManeger>().Shot(transform.localScale.x -4);
+            bullet.GetComponent<BulletManeger>().Shot(transform.localScale.x - 4);
 
         }
-    }
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        //バルーンに当たったら
-        if (col.gameObject.tag == "Ballon")
-        {
-
-            //ダメージを与える
-            //EnemyManager enemy = col.gameObject.GetComponent<EnemyManager>();
-            //enemy.OnDamage(at);
-
-            GameObject effect = Instantiate(impactPrefab, transform.position, transform.rotation);
-
-            Destroy(effect, 1.0f);
-            //破裂
-            //Destroy(col.gameObject);
-
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-
     }
 }
+
 

@@ -390,23 +390,4 @@ public class PlayerController : MonoBehaviour
         // 画面にゲームオーバー表示を行う
         uiManager.DisplayGameOverInfo();
     }
-    //void Direction(float inputX)
-
-    //{
-    //    if (isRight && inputX < 0)
-    //    {
-    //        transform.Rotate(0f, 180f, 0f);
-    //        isRight = false;
-    //    }
-
-    //    if (!isRight && inputX > 0)
-    //    {
-    //        transform.Rotate(0f, 180f, 0f);
-    //        isRight = true;
-    //    }
-
-
-    //}
-
-
 }
